@@ -1,0 +1,18 @@
+deptrac:
+  paths:
+    - ../../src
+  exclude_files:
+    - '#.*test.*#'
+  layers:
+    - name: TimeLog
+      collectors:
+        - type: directory
+          value: src/Model/TimeLog
+    - name: Common
+      collectors:
+        - type: directory
+          value: src/Model/Common
+  ruleset:
+    TimeLog:
+      - Common
+    Common: ~
