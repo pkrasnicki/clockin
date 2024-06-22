@@ -9,6 +9,16 @@ framework:
     #esi: true
     #fragments: true
 
+    http_client:
+        scoped_clients:
+            toggl.client:
+                scope: 'https://api\.track\.toggl\.com'
+                base_uri: 'https://api.track.toggl.com/api/v9/'
+                auth_basic: '%env(TOGGL_API_TOKEN)%:api_token'
+                headers:
+                    Content-Type: 'application/json'
+                    Accept: 'application/json'
+
 when@test:
     framework:
         test: true

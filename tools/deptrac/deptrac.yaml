@@ -1,18 +1,26 @@
 deptrac:
   paths:
     - ../../src
+    - ../../domain
   exclude_files:
     - '#.*test.*#'
   layers:
+    - name: App
+      collectors:
+        - type: classLike
+          value: .*App\\.*
     - name: TimeLog
       collectors:
-        - type: directory
-          value: src/Model/TimeLog
+        - type: classLike
+          value: .*Tracker\\TimeLog\\.*
     - name: Common
       collectors:
-        - type: directory
-          value: src/Model/Common
+        - type: classLike
+          value: .*Tracker\\Common\\.*
   ruleset:
+    App:
+      - TimeLog
+      - Common
     TimeLog:
       - Common
     Common: ~

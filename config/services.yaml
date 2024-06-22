@@ -22,3 +22,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    time_log.repository.toggl:
+        class: \App\Repository\TimeLog\TogglRepository
+        arguments:
+            - '@toggl.client'
+
+    Tracker\TimeLog\Repository: '@time_log.repository.toggl'
