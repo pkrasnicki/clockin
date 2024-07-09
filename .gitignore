@@ -1,4 +1,7 @@
 .idea/
-/vendor/
+
 bin/tracker.phar
 .php-cs-fixer.cache
+
+/vendor/
+/var/

@@ -9,12 +9,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'stop', description: 'Stops tracking time.')]
-class StopCommand extends AbstractCommand
+#[AsCommand(name: 'current', description: 'Shows the current time log.')]
+class CurrentCommand extends AbstractCommand
 {
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->tracker->stop();
+        $current = $this->tracker->current();
+
+        $output->writeln(sprintf('Current time log: %s (%s)', $current->description, $current->duration()));
 
         return Command::SUCCESS;
     }
