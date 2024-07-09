@@ -5,7 +5,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Pkrasnicki\\Tracker\\": "src/"
+            "Tracker\\": "src/"
         }
     },
     "authors": [
@@ -14,5 +14,8 @@
             "email": "krasnicki.pawel@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "8.3",
+        "symfony/console": "^7.1"
+    }
 }

@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+require __DIR__.'/../vendor/autoload.php';
+
+use Tracker\Console\Application;
+use Tracker\Console\StartCommand;
+use Tracker\Console\StopCommand;
+
+$application = new Application();
+
+$application->add(new StartCommand());
+$application->add(new StopCommand());
+
+$application->run();
