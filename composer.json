@@ -11,6 +11,11 @@
             "Tracker\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Paweł",
@@ -18,6 +23,10 @@
         }
     ],
     "require": {
-        "symfony/console": "^7.1"
+        "symfony/console": "^7.1",
+        "webmozart/assert": "^1.11"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11"
     }
 }
