@@ -9,13 +9,16 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Tracker\CompositeDescriptor;
+use Tracker\GitBranchDescriptor;
+use Tracker\StringDescriptor;
 
 #[AsCommand(name: 'start', description: 'Starts tracking time.')]
 final class StartCommand extends AbstractCommand
 {
     protected function configure(): void
     {
-        $this->addArgument('description', InputArgument::REQUIRED, 'The description of the time log.');
+        $this->addArgument('description', InputArgument::OPTIONAL, 'The description of the time log.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -29,8 +32,19 @@ final class StartCommand extends AbstractCommand
             $this->tracker->stop();
         }
 
-        $output->writeln(sprintf('Starting "%s".', $input->getArgument('description')));
-        $this->tracker->start($input->getArgument('description'));
+        try {
+            $description = (new CompositeDescriptor(
+                new StringDescriptor($input->getArgument('description') ?: ''),
+                new GitBranchDescriptor()
+            ))->getDescription();
+        } catch (\RuntimeException $e) {
+            $output->writeln($e->getMessage());
+
+            return Command::FAILURE;
+        }
+
+        $output->writeln(sprintf('Starting "%s".', $description));
+        $this->tracker->start($description);
 
         return Command::SUCCESS;
     }
