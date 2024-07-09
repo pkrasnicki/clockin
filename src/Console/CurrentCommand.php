@@ -14,6 +14,12 @@ final class CurrentCommand extends AbstractCommand
 {
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (!$this->tracker->isRunning()) {
+            $output->writeln('Currently not tracking.');
+
+            return Command::SUCCESS;
+        }
+
         $current = $this->tracker->current();
 
         $output->writeln(sprintf('Current time log: %s (%s)', $current->description, $current->duration()));

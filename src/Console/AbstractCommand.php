@@ -16,7 +16,17 @@ abstract class AbstractCommand extends Command
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $trackerRepository = new JsonFileTrackerRepository(__DIR__.'/../../var/data.json');
+        $file = $input->getOption('file') ?? $_SERVER['HOME'].'/.tracker/data.json';
+
+        if (!file_exists(\dirname($file))) {
+            \mkdir(\dirname($file), 0700, true);
+        }
+
+        if (!file_exists($file)) {
+            file_put_contents($file, '{}');
+        }
+
+        $trackerRepository = new JsonFileTrackerRepository($file);
         $this->tracker = $trackerRepository->load();
 
         $this->setCode(function (InputInterface $input, OutputInterface $output) use ($trackerRepository) {
