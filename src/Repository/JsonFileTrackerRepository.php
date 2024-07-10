@@ -9,7 +9,6 @@ use Tracker\Current;
 use Tracker\TimeLog;
 use Tracker\TimeLogId;
 use Tracker\Tracker;
-use Tracker\TrackerRepository;
 
 final class JsonFileTrackerRepository implements TrackerRepository
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tracker;
+namespace Tracker\Descriptor;
 
 interface TimeLogDescriptor
 {

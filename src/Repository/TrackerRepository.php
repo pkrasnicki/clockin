@@ -1,6 +1,8 @@
 <?php
 
-namespace Tracker;
+namespace Tracker\Repository;
+
+use Tracker\Tracker;
 
 interface TrackerRepository
 {
