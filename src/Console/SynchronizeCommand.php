@@ -21,6 +21,7 @@ final class SynchronizeCommand extends AbstractCommand
         $synchronizer = new Synchronizer(
             new JsonSynchronizedWorkLogRepository($this->config['working-directory'].'/synced.json'),
             new Client($this->config['jira-url'], $this->config['jira-user'], $this->config['jira-token']),
+            $this->logger,
         );
 
         foreach ($this->tracker->timeLogs() as $timeLog) {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tracker\Console;
 
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,9 +17,13 @@ abstract class AbstractCommand extends Command
 {
     protected Tracker $tracker;
     protected array $config;
+    protected LoggerInterface $logger;
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
+        $this->logger = new Logger('tracker');
+        $this->logger->pushHandler(new LogHandler($output));
+
         $this->config = $this->loadConfiguration($input);
 
         $trackerRepository = new JsonFileTrackerRepository($this->config['working-directory'].'/logs.json');
