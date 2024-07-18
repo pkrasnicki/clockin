@@ -5,3 +5,5 @@ bin/tracker.phar
 
 /vendor/
 /var/
+
+.DS_Store

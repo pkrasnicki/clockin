@@ -28,7 +28,11 @@ $application->add(new CurrentCommand());
 $application->add(new SynchronizeCommand(
     new Synchronizer(
         new JsonSynchronizedWorkLogRepository($_SERVER['HOME'].'/.tracker/synced.json'),
-        new Client(),
+        new Client(
+            $_ENV['JIRA_URL'],
+            $_ENV['JIRA_USER'],
+            $_ENV['JIRA_TOKEN']
+        ),
     )
 ));
 
