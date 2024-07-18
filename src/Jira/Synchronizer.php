@@ -28,11 +28,12 @@ final class Synchronizer
     private function addWorkLog(TimeLog $timeLog): void
     {
         $issueId = IssueIdExtractor::extractIssueId($timeLog);
-        $workLogId = $this->jira->addWorkLog($issueId, $timeLog->period);
+        $jiraId = $this->jira->addWorkLog($issueId, $timeLog->period);
 
         $synchronizedWorkLog = new SynchronizedWorkLog(
-            id: $workLogId,
+            WorkLogId::new(),
             timeLog: $timeLog->id,
+            jiraId: $jiraId,
             issue: $issueId,
             synchronizedAt: new \DateTimeImmutable(),
         );
@@ -47,11 +48,15 @@ final class Synchronizer
         $needsUpdate = !$synchronizedWorkLog->issue->equals($issueId) || $synchronizedWorkLog->synchronizedAt < $timeLog->updatedAt;
 
         if (!$needsUpdate) {
-            echo PHP_EOL . 'Work log ' . $synchronizedWorkLog->id . ' is already synchronized.' . PHP_EOL;
             return;
         }
 
-        $this->jira->updateWorkLog($synchronizedWorkLog->id, $issueId, $timeLog->period);
+        if (!$synchronizedWorkLog->issue->equals($issueId)) {
+            $this->jira->deleteWorkLog($synchronizedWorkLog->jiraId, $synchronizedWorkLog->issue);
+            $synchronizedWorkLog->jiraId = $this->jira->addWorkLog($issueId, $timeLog->period);
+        } else {
+            $this->jira->updateWorkLog($synchronizedWorkLog->jiraId, $issueId, $timeLog->period);
+        }
 
         $synchronizedWorkLog->issue = $issueId;
         $synchronizedWorkLog->synchronizedAt = new \DateTimeImmutable();

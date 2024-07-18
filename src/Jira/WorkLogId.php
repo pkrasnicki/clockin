@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Tracker\Jira;
 
-use Tracker\Common\StringId;
+use Tracker\Common\UuidId;
 
-final class WorkLogId implements \Stringable
+final class WorkLogId extends UuidId
 {
-    use StringId;
 }

@@ -10,7 +10,7 @@ abstract class UuidId
 {
     use StringId;
 
-    public function new(): static
+    public static function new(): static
     {
         return new static(Uuid::v4()->toString());
     }

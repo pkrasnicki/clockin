@@ -10,7 +10,7 @@ use Tracker\Common\Period;
 
 final class Client
 {
-    const string DATETIME_FORMAT = 'Y-m-d\TH:i:s.vO';
+    private const string DATETIME_FORMAT = 'Y-m-d\TH:i:s.vO';
     private HttpClientInterface $httpClient;
 
     public function __construct(
@@ -24,7 +24,7 @@ final class Client
         ]]);
     }
 
-    public function addWorkLog(IssueId $issue, Period $period): WorkLogId
+    public function addWorkLog(IssueId $issue, Period $period): JiraId
     {
         $response = $this->httpClient->request(
             'POST',
@@ -35,17 +35,32 @@ final class Client
             ]]
         );
 
-        $workLogId = $response->toArray()['id'] ?? null;
+        $jiraId = $response->toArray()['id'] ?? null;
 
-        if (null === $workLogId) {
+        if (null === $jiraId) {
             throw new \RuntimeException('Work log not created.');
         }
 
-        return new WorkLogId($workLogId);
+        return new JiraId($jiraId);
     }
 
-    public function updateWorkLog(WorkLogId $id, IssueId $issue, Period $period): void
+    public function deleteWorkLog(JiraId $id, IssueId $issue): void
     {
-        echo PHP_EOL.'Updating work log '.$id.' for issue '.$issue.'...'.PHP_EOL;
+        $this->httpClient->request(
+            'DELETE',
+            sprintf('%s/rest/api/2/issue/%s/worklog/%s', $this->jiraHost, $issue, $id),
+        );
+    }
+
+    public function updateWorkLog(JiraId $id, IssueId $issue, Period $period): void
+    {
+        $this->httpClient->request(
+            'PUT',
+            sprintf('%s/rest/api/2/issue/%s/worklog/%s', $this->jiraHost, $issue, $id),
+            ['json' => [
+                'started' => $period->start->format(self::DATETIME_FORMAT),
+                'timeSpentSeconds' => $period->duration->seconds,
+            ]]
+        );
     }
 }

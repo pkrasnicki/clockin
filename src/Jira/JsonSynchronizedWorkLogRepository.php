@@ -53,6 +53,7 @@ final class JsonSynchronizedWorkLogRepository implements SynchronizedWorkLogRepo
         $data[] = [
             'id' => (string) $synchronizedWorkLog->id,
             'timeLog' => (string) $synchronizedWorkLog->timeLog,
+            'jiraId' => (string) $synchronizedWorkLog->jiraId,
             'issue' => (string) $synchronizedWorkLog->issue,
             'synchronizedAt' => $synchronizedWorkLog->synchronizedAt->format(\DateTimeInterface::ATOM),
         ];
@@ -65,6 +66,7 @@ final class JsonSynchronizedWorkLogRepository implements SynchronizedWorkLogRepo
         return new SynchronizedWorkLog(
             new WorkLogId($data['id']),
             new TimeLogId($data['timeLog']),
+            new JiraId($data['jiraId']),
             new IssueId($data['issue']),
             new \DateTimeImmutable($data['synchronizedAt']),
         );
