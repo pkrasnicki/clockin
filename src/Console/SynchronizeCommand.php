@@ -7,6 +7,7 @@ namespace Tracker\Console;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Tracker\Jira\Exception\IssueIdNotRecognizedException;
 use Tracker\Jira\Synchronizer;
 
@@ -28,9 +29,14 @@ final class SynchronizeCommand extends AbstractCommand
                 $this->synchronizer->synchronize($timeLog);
             } catch (IssueIdNotRecognizedException) {
                 $output->writeln('Issue ID not recognized. Skipping.');
+            } catch (ClientExceptionInterface $e) {
+                $output->writeln('An error occurred:');
+                $output->writeln($e->getResponse()->getContent(false));
             } catch (\Throwable $e) {
                 $output->writeln(sprintf('An error [%s] occurred:', $e::class));
                 $output->writeln($e->getMessage());
+
+                var_dump($e);
 
                 return self::FAILURE;
             }

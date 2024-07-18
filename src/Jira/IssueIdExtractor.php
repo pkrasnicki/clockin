@@ -11,7 +11,7 @@ final class IssueIdExtractor
 {
     public static function extractIssueId(TimeLog $timeLog): IssueId
     {
-        preg_match('/SBX-\d{1,5}/', $timeLog->description, $matches);
+        preg_match('/SBX1-\d{1,5}/', $timeLog->description, $matches);
 
         if (null === ($matches[0] ?? null)) {
             throw new IssueIdNotRecognizedException();

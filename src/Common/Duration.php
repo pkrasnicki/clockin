@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tracker\Common;
 
-final class Duration implements \Stringable
+final readonly class Duration implements \Stringable
 {
-    public function __construct(private int $seconds)
+    public function __construct(public int $seconds)
     {
     }
 
