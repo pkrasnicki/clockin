@@ -10,6 +10,12 @@ final class JsonSynchronizedWorkLogRepository implements SynchronizedWorkLogRepo
 {
     public function __construct(private string $path)
     {
+        if (!file_exists(\dirname($path))) {
+            \mkdir(\dirname($path), 0600, true);
+        }
+        if (!file_exists($path)) {
+            file_put_contents($path, '{}');
+        }
     }
 
     public function get(WorkLogId $id): ?SynchronizedWorkLog

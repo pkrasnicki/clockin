@@ -11,29 +11,13 @@ use Tracker\Console\ListCommand;
 use Tracker\Console\StartCommand;
 use Tracker\Console\StopCommand;
 use Tracker\Console\SynchronizeCommand;
-use Tracker\Jira\Client;
-use Tracker\Jira\JsonSynchronizedWorkLogRepository;
-use Tracker\Jira\Synchronizer;
 
 $application = new Application();
-
-if (!file_exists($_SERVER['HOME'].'/.tracker/synced.json')) {
-    file_put_contents($_SERVER['HOME'].'/.tracker/synced.json', '[]');
-}
 
 $application->add(new StartCommand());
 $application->add(new StopCommand());
 $application->add(new ListCommand());
 $application->add(new CurrentCommand());
-$application->add(new SynchronizeCommand(
-    new Synchronizer(
-        new JsonSynchronizedWorkLogRepository($_SERVER['HOME'].'/.tracker/synced.json'),
-        new Client(
-            $_ENV['JIRA_URL'],
-            $_ENV['JIRA_USER'],
-            $_ENV['JIRA_TOKEN']
-        ),
-    )
-));
+$application->add(new SynchronizeCommand());
 
 $application->run();

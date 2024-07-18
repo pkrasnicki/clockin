@@ -21,10 +21,26 @@ final class Application extends SymfonyApplication
     {
         $definition = parent::getDefaultInputDefinition();
         $definition->addOption(new InputOption(
-            '--file',
-            '-f',
+            '--working-directory',
+            '-w',
             InputOption::VALUE_OPTIONAL,
-            'The file to store time logs in.',
+            'Path to the directory where configuration and database is stored',
+        ));
+
+        $definition->addOption(new InputOption(
+            '--jira-url',
+            null,
+            InputOption::VALUE_OPTIONAL,
+        ));
+        $definition->addOption(new InputOption(
+            '--jira-user',
+            null,
+            InputOption::VALUE_OPTIONAL,
+        ));
+        $definition->addOption(new InputOption(
+            '--jira-token',
+            null,
+            InputOption::VALUE_OPTIONAL,
         ));
 
         return $definition;

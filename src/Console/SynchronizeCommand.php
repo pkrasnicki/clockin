@@ -8,25 +8,26 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Tracker\Jira\Client;
 use Tracker\Jira\Exception\IssueIdNotRecognizedException;
+use Tracker\Jira\JsonSynchronizedWorkLogRepository;
 use Tracker\Jira\Synchronizer;
 
 #[AsCommand(name: 'synchronize', description: 'Synchronizes time logs with Jira.')]
 final class SynchronizeCommand extends AbstractCommand
 {
-    public function __construct(
-        private Synchronizer $synchronizer,
-    ) {
-        parent::__construct();
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $synchronizer = new Synchronizer(
+            new JsonSynchronizedWorkLogRepository($this->config['working-directory'].'/synced.json'),
+            new Client($this->config['jira-url'], $this->config['jira-user'], $this->config['jira-token']),
+        );
+
         foreach ($this->tracker->timeLogs() as $timeLog) {
             $output->writeln(\sprintf('Synchronizing time log #%s', $timeLog->id));
 
             try {
-                $this->synchronizer->synchronize($timeLog);
+                $synchronizer->synchronize($timeLog);
             } catch (IssueIdNotRecognizedException) {
                 $output->writeln('Issue ID not recognized. Skipping.');
             } catch (ClientExceptionInterface $e) {
