@@ -37,6 +37,7 @@ final class Tracker
                 new \DateTimeImmutable(),
             ),
             $this->current->description,
+            new \DateTimeImmutable(),
         );
 
         $this->current = null;

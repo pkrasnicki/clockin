@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 namespace Tracker;
 
-final class TimeLogId implements \Stringable
-{
-    public function __construct(private string $value)
-    {
-    }
+use Tracker\Common\UuidId;
 
-    public function __toString(): string
-    {
-        return $this->value;
-    }
+final class TimeLogId extends UuidId implements \Stringable
+{
 }

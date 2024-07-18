@@ -13,6 +13,7 @@ final readonly class TimeLog
         public TimeLogId $id,
         public Period $period,
         public string $description,
+        public \DateTimeImmutable $updatedAt,
     ) {
     }
 

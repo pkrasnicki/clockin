@@ -39,6 +39,7 @@ final class JsonFileTrackerRepository implements TrackerRepository
                     new \DateTimeImmutable($timeLog['period']['end']),
                 ),
                 $timeLog['description'],
+                new \DateTimeImmutable($timeLog['updatedAt'] ?? 'now'),
             );
         }
 
@@ -58,12 +59,13 @@ final class JsonFileTrackerRepository implements TrackerRepository
 
         foreach ($tracker->timeLogs() as $timeLog) {
             $data['timeLogs'][] = [
-                'id' => (string)$timeLog->id,
+                'id' => (string) $timeLog->id,
                 'period' => [
                     'start' => $timeLog->period->start->format(\DateTimeInterface::ATOM),
                     'end' => $timeLog->period->end->format(\DateTimeInterface::ATOM),
                 ],
                 'description' => $timeLog->description,
+                'updatedAt' => $timeLog->updatedAt->format(\DateTimeInterface::ATOM),
             ];
         }
 
