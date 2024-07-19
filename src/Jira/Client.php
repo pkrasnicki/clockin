@@ -8,7 +8,7 @@ use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Tracker\Common\Period;
 
-final class Client
+final class Client implements ClientInterface
 {
     private const string DATETIME_FORMAT = 'Y-m-d\TH:i:s.vO';
     private HttpClientInterface $httpClient;

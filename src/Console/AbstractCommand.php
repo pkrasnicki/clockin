@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Tracker\Repository\JsonFileTrackerRepository;
 use Tracker\Tracker;
@@ -39,7 +40,7 @@ abstract class AbstractCommand extends Command
 
     private function loadConfiguration(InputInterface $input): array
     {
-        $required = ['jira-url', 'jira-user', 'jira-token'];
+        $required = ['jira-url', 'jira-user', 'jira-token', 'jira-extractor'];
 
         $workingDirectory = $input->getOption('working-directory') ?:
             $_SERVER['TRACKER_WORKING_DIRECTORY'] ??
@@ -47,8 +48,8 @@ abstract class AbstractCommand extends Command
 
         $configuration = array_intersect_key(
             array_merge(
-                self::normalizeEnv($_SERVER),
-                file_exists($workingDirectory.'/config.yaml') ? self::flatten(Yaml::parseFile($workingDirectory.'/config.yaml')) : [],
+                self::normalizedEnv(),
+                self::normalizedYaml($workingDirectory.'/config.yaml'),
                 array_filter($input->getOptions()),
             ),
             array_fill_keys($required, null),
@@ -63,8 +64,9 @@ abstract class AbstractCommand extends Command
         return $configuration;
     }
 
-    private static function normalizeEnv(array $env): array
+    private static function normalizedEnv(): array
     {
+        $env = $_SERVER;
         $normalized = [];
 
         $env = array_filter($env, fn ($key) => str_starts_with($key, 'TRACKER_'), ARRAY_FILTER_USE_KEY);
@@ -79,17 +81,24 @@ abstract class AbstractCommand extends Command
         return $normalized;
     }
 
-    private static function flatten(array $array, string $prefix = ''): array
+    private static function normalizedYaml(string $filePath): array
     {
-        $return = [];
-        foreach ($array as $key => $value) {
-            if (is_array($value)) {
-                $return = array_merge($return, self::flatten($value, $prefix.$key.'-'));
-            } else {
-                $return[$prefix.$key] = $value;
-            }
+        if (!file_exists($filePath)) {
+            return [];
         }
 
-        return $return;
+        try {
+            $config = Yaml::parseFile($filePath);
+        } catch (ParseException) {
+            return [];
+        }
+
+        $normalized = [];
+
+        foreach ($config['jira'] as $key => $value) {
+            $normalized['jira-'.$key] = $value;
+        }
+
+        return $normalized;
     }
 }

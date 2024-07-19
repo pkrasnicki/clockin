@@ -10,8 +10,9 @@ use Tracker\TimeLog;
 final class Synchronizer
 {
     public function __construct(
+        private IssueIdExtractor $issueIdExtractor,
         private SynchronizedWorkLogRepository $synchronizedWorkLogRepository,
-        private Client $jira,
+        private ClientInterface $jira,
         private LoggerInterface $logger,
     ) {
     }
@@ -29,7 +30,7 @@ final class Synchronizer
 
     private function addWorkLog(TimeLog $timeLog): void
     {
-        $issueId = IssueIdExtractor::extractIssueId($timeLog);
+        $issueId = $this->issueIdExtractor->extract($timeLog);
         $jiraId = $this->jira->addWorkLog($issueId, $timeLog->period);
 
         $synchronizedWorkLog = new SynchronizedWorkLog(
@@ -46,7 +47,7 @@ final class Synchronizer
 
     private function updateWorkLog(SynchronizedWorkLog $synchronizedWorkLog, TimeLog $timeLog): void
     {
-        $issueId = IssueIdExtractor::extractIssueId($timeLog);
+        $issueId = $this->issueIdExtractor->extract($timeLog);
 
         $needsUpdate = !$synchronizedWorkLog->issue->equals($issueId) || $synchronizedWorkLog->synchronizedAt < $timeLog->updatedAt;
 

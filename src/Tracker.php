@@ -31,7 +31,7 @@ final class Tracker
         Assert::notNull($this->current, 'Cannot stop while tracker is not running.');
 
         $this->timeLogs[] = new TimeLog(
-            new TimeLogId((string) \count($this->timeLogs)),
+            TimeLogId::new(),
             new Period(
                 $this->current->start,
                 new \DateTimeImmutable(),

@@ -22,6 +22,9 @@ final class LogHandler extends Handler
     public function handle(LogRecord $record): bool
     {
         $this->output->writeln(sprintf('[%s] %s', $record->level->name, $record->message));
+        $this->output->write('{');
+        $this->output->write($record->context);
+        $this->output->writeln('}');
 
         return true;
     }
