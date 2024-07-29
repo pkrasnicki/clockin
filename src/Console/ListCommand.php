@@ -15,10 +15,11 @@ final class ListCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = (new Table($output))
-               ->setHeaders(['Description', 'Start', 'End', 'Duration']);
+               ->setHeaders(['ID', 'Description', 'Start', 'End', 'Duration']);
 
         foreach ($this->tracker->timeLogs() as $timeLog) {
             $table->addRow([
+                $timeLog->id,
                 $timeLog->description,
                 $timeLog->period->start->format('Y-m-d H:i:s'),
                 $timeLog->period->end->format('Y-m-d H:i:s'),
@@ -28,6 +29,7 @@ final class ListCommand extends AbstractCommand
 
         if ($this->tracker->isRunning()) {
             $table->addRow([
+                'N/A',
                 $this->tracker->current()->description,
                 $this->tracker->current()->start->format('Y-m-d H:i:s'),
                 'N/A',
