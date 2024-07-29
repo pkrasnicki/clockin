@@ -12,6 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'list', description: 'Lists all time logs.')]
 final class ListCommand extends AbstractCommand
 {
+    private const DATE_FORMAT = 'Y-m-d H:i:s';
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = (new Table($output))
@@ -21,8 +23,8 @@ final class ListCommand extends AbstractCommand
             $table->addRow([
                 $timeLog->id,
                 $timeLog->description,
-                $timeLog->period->start->format('Y-m-d H:i:s'),
-                $timeLog->period->end->format('Y-m-d H:i:s'),
+                $timeLog->period->start->format(self::DATE_FORMAT),
+                $timeLog->period->end->format(self::DATE_FORMAT),
                 $timeLog->duration(),
             ]);
         }
@@ -31,7 +33,7 @@ final class ListCommand extends AbstractCommand
             $table->addRow([
                 'N/A',
                 $this->tracker->current()->description,
-                $this->tracker->current()->start->format('Y-m-d H:i:s'),
+                $this->tracker->current()->start->format(self::DATE_FORMAT),
                 'N/A',
                 $this->tracker->current()->duration(),
             ]);
