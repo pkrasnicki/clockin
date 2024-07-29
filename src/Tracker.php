@@ -60,4 +60,12 @@ final class Tracker
     {
         return $this->timeLogs;
     }
+
+    public function remove(TimeLogId $id): void
+    {
+        $this->timeLogs = array_filter(
+            $this->timeLogs,
+            fn (TimeLog $timeLog) => !$timeLog->id->equals($id),
+        );
+    }
 }

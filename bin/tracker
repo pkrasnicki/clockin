@@ -7,6 +7,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 use Tracker\Console\Application;
 use Tracker\Console\CurrentCommand;
+use Tracker\Console\DeleteCommand;
 use Tracker\Console\ListCommand;
 use Tracker\Console\StartCommand;
 use Tracker\Console\StopCommand;
@@ -18,6 +19,7 @@ $application->add(new StartCommand());
 $application->add(new StopCommand());
 $application->add(new ListCommand());
 $application->add(new CurrentCommand());
+$application->add(new DeleteCommand());
 $application->add(new SynchronizeCommand());
 
 $application->run();
