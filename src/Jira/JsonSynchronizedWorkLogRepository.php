@@ -61,6 +61,14 @@ final class JsonSynchronizedWorkLogRepository implements SynchronizedWorkLogRepo
         \file_put_contents($this->path, \json_encode($data));
     }
 
+    public function all(): iterable
+    {
+        $data = \file_get_contents($this->path);
+        $data = \json_decode($data, true);
+
+        return array_map(fn ($workLog) => self::create($workLog), $data);
+    }
+
     private static function create(array $data): SynchronizedWorkLog
     {
         return new SynchronizedWorkLog(
@@ -70,5 +78,15 @@ final class JsonSynchronizedWorkLogRepository implements SynchronizedWorkLogRepo
             new IssueId($data['issue']),
             new \DateTimeImmutable($data['synchronizedAt']),
         );
+    }
+
+    public function remove(WorkLogId $id): void
+    {
+        $data = \file_get_contents($this->path);
+        $data = \json_decode($data, true);
+
+        $data = array_filter($data, fn ($workLog) => $workLog['id'] !== (string) $id);
+
+        \file_put_contents($this->path, \json_encode($data));
     }
 }

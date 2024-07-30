@@ -53,6 +53,7 @@ final class Synchronizer
 
         if (!$needsUpdate) {
             $this->logger->info('Work log already synchronized', ['timeLogId' => $timeLog->id]);
+
             return;
         }
 
@@ -69,5 +70,11 @@ final class Synchronizer
         $synchronizedWorkLog->synchronizedAt = new \DateTimeImmutable();
 
         $this->synchronizedWorkLogRepository->save($synchronizedWorkLog);
+    }
+
+    public function remove(SynchronizedWorkLog $removedTimeLog): void
+    {
+        $this->jira->deleteWorkLog($removedTimeLog->jiraId, $removedTimeLog->issue);
+        $this->synchronizedWorkLogRepository->remove($removedTimeLog->id);
     }
 }
