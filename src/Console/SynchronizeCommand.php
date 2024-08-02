@@ -12,7 +12,7 @@ use Tracker\Jira\Client;
 use Tracker\Jira\DelegatingExtractor;
 use Tracker\Jira\DryRunClient;
 use Tracker\Jira\DryRunSyncedRepo;
-use Tracker\Jira\JiraSynchronizer;
+use Tracker\Jira\Synchronizer;
 use Tracker\Jira\JsonSynchronizedWorkLogRepository;
 use Tracker\Jira\RegexExtractor;
 
@@ -33,7 +33,7 @@ final class SynchronizeCommand extends AbstractCommand
         return self::SUCCESS;
     }
 
-    private function createSynchronizer(InputInterface $input): JiraSynchronizer
+    private function createSynchronizer(InputInterface $input): Synchronizer
     {
         $extractor = new DelegatingExtractor(
             ...array_map(fn ($regex) => new RegexExtractor($regex), $this->config['jira-extractor'])
@@ -42,14 +42,14 @@ final class SynchronizeCommand extends AbstractCommand
         $synchronizedWorkLogRepository = new JsonSynchronizedWorkLogRepository($this->config['working-directory'].'/synced.json');
 
         if ($input->getOption('dry-run')) {
-            return new JiraSynchronizer(
+            return new Synchronizer(
                 new DryRunClient($this->logger),
                 $extractor,
                 new DryRunSyncedRepo($synchronizedWorkLogRepository),
             );
         }
 
-        return new JiraSynchronizer(
+        return new Synchronizer(
             new Client($this->config['jira-url'], $this->config['jira-user'], $this->config['jira-token']),
             $extractor,
             $synchronizedWorkLogRepository,

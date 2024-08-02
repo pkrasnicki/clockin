@@ -4,31 +4,42 @@ declare(strict_types=1);
 
 namespace Tracker\Jira;
 
-use Psr\Log\LoggerInterface;
+use Symfony\Component\Clock\ClockAwareTrait;
 use Tracker\TimeLog;
+use Tracker\TimeLogId;
+use Tracker\Tracker;
 
-final class Synchronizer
+final class Synchronizer implements SynchronizerInterface
 {
+    use ClockAwareTrait;
+
     public function __construct(
+        private ClientInterface $jira,
         private IssueIdExtractor $issueIdExtractor,
         private SynchronizedWorkLogRepository $synchronizedWorkLogRepository,
-        private ClientInterface $jira,
-        private LoggerInterface $logger,
     ) {
     }
 
-    public function synchronize(TimeLog $timeLog): void
+    public function synchronize(Tracker $tracker): void
     {
-        $synchronizedWorkLog = $this->synchronizedWorkLogRepository->find($timeLog->id);
+        $timeLogs = $tracker->timeLogs();
 
-        if (null === $synchronizedWorkLog) {
-            $this->addWorkLog($timeLog);
-        } else {
-            $this->updateWorkLog($synchronizedWorkLog, $timeLog);
+        foreach ($timeLogs as $timeLog) {
+            $synchronizedWorkLog = $this->synchronizedWorkLogRepository->find($timeLog->id);
+            if (null === $synchronizedWorkLog) {
+                $this->add($timeLog);
+                continue;
+            }
+
+            $this->update($synchronizedWorkLog, $timeLog);
+        }
+
+        foreach ($this->getRemovedWorkLogs($tracker) as $removedWorkLog) {
+            $this->remove($removedWorkLog);
         }
     }
 
-    private function addWorkLog(TimeLog $timeLog): void
+    private function add(TimeLog $timeLog): void
     {
         $issueId = $this->issueIdExtractor->extract($timeLog);
         $jiraId = $this->jira->addWorkLog($issueId, $timeLog->period);
@@ -38,43 +49,57 @@ final class Synchronizer
             timeLog: $timeLog->id,
             jiraId: $jiraId,
             issue: $issueId,
-            synchronizedAt: new \DateTimeImmutable(),
+            synchronizedAt: $this->now(),
         );
 
         $this->synchronizedWorkLogRepository->save($synchronizedWorkLog);
-        $this->logger->info('Work log added', ['timeLogId' => $timeLog->id]);
     }
 
-    private function updateWorkLog(SynchronizedWorkLog $synchronizedWorkLog, TimeLog $timeLog): void
+    private function update(SynchronizedWorkLog $synchronizedWorkLog, TimeLog $timeLog): void
     {
         $issueId = $this->issueIdExtractor->extract($timeLog);
 
         $needsUpdate = !$synchronizedWorkLog->issue->equals($issueId) || $synchronizedWorkLog->synchronizedAt < $timeLog->updatedAt;
 
         if (!$needsUpdate) {
-            $this->logger->info('Work log already synchronized', ['timeLogId' => $timeLog->id]);
-
             return;
         }
 
         if (!$synchronizedWorkLog->issue->equals($issueId)) {
-            $this->logger->info('Work log moved to another issue', ['timeLogId' => $timeLog->id]);
             $this->jira->deleteWorkLog($synchronizedWorkLog->jiraId, $synchronizedWorkLog->issue);
             $synchronizedWorkLog->jiraId = $this->jira->addWorkLog($issueId, $timeLog->period);
         } else {
             $this->jira->updateWorkLog($synchronizedWorkLog->jiraId, $issueId, $timeLog->period);
-            $this->logger->info('Work log updated', ['timeLogId' => $timeLog->id]);
         }
 
         $synchronizedWorkLog->issue = $issueId;
-        $synchronizedWorkLog->synchronizedAt = new \DateTimeImmutable();
+        $synchronizedWorkLog->synchronizedAt = $this->now();
 
         $this->synchronizedWorkLogRepository->save($synchronizedWorkLog);
     }
 
-    public function remove(SynchronizedWorkLog $removedTimeLog): void
+    private function remove(SynchronizedWorkLog $synchronizedWorkLog): void
     {
-        $this->jira->deleteWorkLog($removedTimeLog->jiraId, $removedTimeLog->issue);
-        $this->synchronizedWorkLogRepository->remove($removedTimeLog->id);
+        $this->jira->deleteWorkLog($synchronizedWorkLog->jiraId, $synchronizedWorkLog->issue);
+        $this->synchronizedWorkLogRepository->remove($synchronizedWorkLog->id);
+    }
+
+    /**
+     * @return array<SynchronizedWorkLog>
+     */
+    private function getRemovedWorkLogs(Tracker $tracker): array
+    {
+        return array_filter(
+            (array) $this->synchronizedWorkLogRepository->all(),
+            fn (SynchronizedWorkLog $synchronizedWorkLog) => !$this->hasTimeLog($tracker, $synchronizedWorkLog->timeLog)
+        );
+    }
+
+    private static function hasTimeLog(Tracker $tracker, TimeLogId $id): bool
+    {
+        return !empty(array_filter(
+            $tracker->timeLogs(),
+            fn (TimeLog $timeLog) => $timeLog->id->equals($id)
+        ));
     }
 }

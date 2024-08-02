@@ -7,12 +7,12 @@ use Symfony\Component\Clock\Test\ClockSensitiveTrait;
 use Tracker\Common\Duration;
 use Tracker\Common\Period;
 use Tracker\Jira\IssueId;
-use Tracker\Jira\JiraSynchronizer;
+use Tracker\Jira\Synchronizer;
 use Tracker\TimeLog;
 use Tracker\TimeLogId;
 use Tracker\Tracker;
 
-class JiraSynchronizerTest extends TestCase
+class SynchronizerTest extends TestCase
 {
     use ClockSensitiveTrait;
 
@@ -35,7 +35,7 @@ class JiraSynchronizerTest extends TestCase
 
         // When
 
-        $synchronizer = new JiraSynchronizer($jiraClientSpy, $issueIdExtractor, $synchronizedWorkLogsRepository);
+        $synchronizer = new Synchronizer($jiraClientSpy, $issueIdExtractor, $synchronizedWorkLogsRepository);
         $synchronizer->synchronize($tracker);
 
         // Then
@@ -69,7 +69,7 @@ class JiraSynchronizerTest extends TestCase
         $issueIdExtractor = (new IssueIdExtractorMock())->willExtract($issueId = new IssueId('ABC-1'));
         $synchronizedWorkLogsRepository = new InMemorySynchronizedWorkLogRepository();
 
-        $synchronizer = new JiraSynchronizer($jiraClientSpy, $issueIdExtractor, $synchronizedWorkLogsRepository);
+        $synchronizer = new Synchronizer($jiraClientSpy, $issueIdExtractor, $synchronizedWorkLogsRepository);
         $synchronizer->synchronize($tracker);
 
         $jiraClientSpy->clear();
@@ -109,7 +109,7 @@ class JiraSynchronizerTest extends TestCase
         $jiraClientSpy = new JiraClientSpy();
         $issueIdExtractor = (new IssueIdExtractorMock())->willExtract($issueId = new IssueId('ABC-1'));
 
-        $synchronizer = new JiraSynchronizer(
+        $synchronizer = new Synchronizer(
             $jiraClientSpy,
             $issueIdExtractor,
             new InMemorySynchronizedWorkLogRepository()
@@ -149,7 +149,7 @@ class JiraSynchronizerTest extends TestCase
         $jiraClientSpy = new JiraClientSpy();
         $issueIdExtractor = (new IssueIdExtractorMock())->willExtract($issueId = new IssueId('ABC-1'));
 
-        $synchronizer = new JiraSynchronizer(
+        $synchronizer = new Synchronizer(
             $jiraClientSpy,
             $issueIdExtractor,
             new InMemorySynchronizedWorkLogRepository()
