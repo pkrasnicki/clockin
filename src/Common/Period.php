@@ -14,4 +14,15 @@ final readonly class Period
     ) {
         $this->duration = new Duration($end->getTimestamp() - $start->getTimestamp());
     }
+
+    public static function from(\DateTimeImmutable $start, Duration $duration): self
+    {
+        return new self($start, $start->add(new \DateInterval('PT'.$duration->seconds.'S')));
+    }
+
+    public function equals(Period $other): bool
+    {
+        return $this->start->getTimestamp() === $other->start->getTimestamp()
+            && $this->end->getTimestamp() === $other->end->getTimestamp();
+    }
 }

@@ -12,7 +12,7 @@ use Tracker\TimeLogId;
 
 class JsonSynchronizedWorkLogRepositoryTest extends TestCase
 {
-    private const FILE_PATH = __DIR__.'/data';
+    private const string FILE_PATH = __DIR__.'/data';
 
     protected function tearDown(): void
     {

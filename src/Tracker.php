@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace Tracker;
 
+use Symfony\Component\Clock\ClockAwareTrait;
 use Tracker\Common\Period;
 use Webmozart\Assert\Assert;
 
 final class Tracker
 {
+    use ClockAwareTrait;
+
     public function __construct(
+        /**
+         * @var array<TimeLog>
+         */
         private array $timeLogs = [],
         private ?Current $current = null,
     ) {
@@ -21,7 +27,7 @@ final class Tracker
         Assert::null($this->current, 'Cannot start while tracker is running.');
 
         $this->current = new Current(
-            new \DateTimeImmutable(),
+            $this->now(),
             $description,
         );
     }
@@ -34,10 +40,10 @@ final class Tracker
             TimeLogId::new(),
             new Period(
                 $this->current->start,
-                new \DateTimeImmutable(),
+                $this->now(),
             ),
             $this->current->description,
-            new \DateTimeImmutable(),
+            $this->now(),
         );
 
         $this->current = null;
@@ -66,6 +72,36 @@ final class Tracker
         $this->timeLogs = array_filter(
             $this->timeLogs,
             fn (TimeLog $timeLog) => !$timeLog->id->equals($id),
+        );
+    }
+
+    public function modifyPeriod(TimeLogId $id, Period $newPeriod): void
+    {
+        $this->timeLogs = array_map(
+            fn (TimeLog $timeLog) => $timeLog->id->equals($id)
+                ? new TimeLog(
+                    $timeLog->id,
+                    $newPeriod,
+                    $timeLog->description,
+                    $this->now(),
+                )
+                : $timeLog,
+            $this->timeLogs,
+        );
+    }
+
+    public function updateDescription(TimeLogId $id, string $newDescription): void
+    {
+        $this->timeLogs = array_map(
+            fn (TimeLog $timeLog) => $timeLog->id->equals($id)
+                ? new TimeLog(
+                    $timeLog->id,
+                    $timeLog->period,
+                    $newDescription,
+                    $timeLog->updatedAt,
+                )
+                : $timeLog,
+            $this->timeLogs,
         );
     }
 }

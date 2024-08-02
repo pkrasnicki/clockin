@@ -10,6 +10,11 @@ final readonly class Duration implements \Stringable
     {
     }
 
+    public function equals(Duration $other): bool
+    {
+        return $this->seconds === $other->seconds;
+    }
+
     public function __toString(): string
     {
         $hours = \floor($this->seconds / 3600);
