@@ -1,8 +1,8 @@
 <?php
 
-namespace Tracker\Repository;
+namespace ClockIn\Repository;
 
-use Tracker\Tracker;
+use ClockIn\Tracker;
 
 interface TrackerRepository
 {

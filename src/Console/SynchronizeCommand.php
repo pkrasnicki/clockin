@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Console;
+namespace ClockIn\Console;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Tracker\Jira\Client;
-use Tracker\Jira\DelegatingExtractor;
-use Tracker\Jira\DryRunClient;
-use Tracker\Jira\DryRunSyncedRepo;
-use Tracker\Jira\Synchronizer;
-use Tracker\Jira\JsonSynchronizedWorkLogRepository;
-use Tracker\Jira\RegexExtractor;
+use ClockIn\Jira\Client;
+use ClockIn\Jira\DelegatingExtractor;
+use ClockIn\Jira\DryRunClient;
+use ClockIn\Jira\DryRunSyncedRepo;
+use ClockIn\Jira\Synchronizer;
+use ClockIn\Jira\JsonSynchronizedWorkLogRepository;
+use ClockIn\Jira\RegexExtractor;
 
 #[AsCommand(name: 'synchronize', description: 'Synchronizes time logs with Jira.')]
 final class SynchronizeCommand extends AbstractCommand

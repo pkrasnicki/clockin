@@ -1,8 +1,8 @@
 <?php
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
-use Tracker\Common\Period;
+use ClockIn\Common\Period;
 
 interface ClientInterface
 {

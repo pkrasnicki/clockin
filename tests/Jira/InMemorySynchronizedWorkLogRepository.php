@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Jira;
 
-use Tracker\Jira\SynchronizedWorkLog;
-use Tracker\Jira\SynchronizedWorkLogRepository;
-use Tracker\Jira\WorkLogId;
-use Tracker\TimeLogId;
+use ClockIn\Jira\SynchronizedWorkLog;
+use ClockIn\Jira\SynchronizedWorkLogRepository;
+use ClockIn\Jira\WorkLogId;
+use ClockIn\TimeLogId;
 
 final class InMemorySynchronizedWorkLogRepository implements SynchronizedWorkLogRepository
 {

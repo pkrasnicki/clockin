@@ -1,8 +1,8 @@
 <?php
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
-use Tracker\Tracker;
+use ClockIn\Tracker;
 
 interface SynchronizerInterface
 {

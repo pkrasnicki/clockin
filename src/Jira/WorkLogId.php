@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
-use Tracker\Common\UuidId;
+use ClockIn\Common\UuidId;
 
 final class WorkLogId extends UuidId
 {

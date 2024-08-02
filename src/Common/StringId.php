@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Common;
+namespace ClockIn\Common;
 
 trait StringId
 {

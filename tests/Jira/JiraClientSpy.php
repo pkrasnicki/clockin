@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Jira;
 
 use Illuminate\Support\Collection;
-use Tracker\Common\Period;
-use Tracker\Jira\ClientInterface;
-use Tracker\Jira\IssueId;
-use Tracker\Jira\JiraId;
+use ClockIn\Common\Period;
+use ClockIn\Jira\ClientInterface;
+use ClockIn\Jira\IssueId;
+use ClockIn\Jira\JiraId;
 
 final class JiraClientSpy implements ClientInterface
 {

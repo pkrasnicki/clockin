@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Jira;
 
-use Tracker\Jira\IssueId;
-use Tracker\Jira\IssueIdExtractor;
-use Tracker\TimeLog;
+use ClockIn\Jira\IssueId;
+use ClockIn\Jira\IssueIdExtractor;
+use ClockIn\TimeLog;
 
 final class IssueIdExtractorMock implements IssueIdExtractor
 {

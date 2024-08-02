@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Jira\Exception;
+namespace ClockIn\Jira\Exception;
 
 final class IssueIdNotRecognizedException extends \RuntimeException
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
-use Tracker\Common\StringId;
+use ClockIn\Common\StringId;
 
 final class JiraId implements \Stringable
 {

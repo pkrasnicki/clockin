@@ -3,12 +3,12 @@
 namespace Tests\Jira;
 
 use PHPUnit\Framework\TestCase;
-use Tracker\Jira\IssueId;
-use Tracker\Jira\JiraId;
-use Tracker\Jira\JsonSynchronizedWorkLogRepository;
-use Tracker\Jira\SynchronizedWorkLog;
-use Tracker\Jira\WorkLogId;
-use Tracker\TimeLogId;
+use ClockIn\Jira\IssueId;
+use ClockIn\Jira\JiraId;
+use ClockIn\Jira\JsonSynchronizedWorkLogRepository;
+use ClockIn\Jira\SynchronizedWorkLog;
+use ClockIn\Jira\WorkLogId;
+use ClockIn\TimeLogId;
 
 class JsonSynchronizedWorkLogRepositoryTest extends TestCase
 {

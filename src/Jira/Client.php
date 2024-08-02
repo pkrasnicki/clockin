@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Tracker\Common\Period;
+use ClockIn\Common\Period;
 
 final class Client implements ClientInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Descriptor;
+namespace ClockIn\Descriptor;
 
 final class StringDescriptor implements TimeLogDescriptor
 {

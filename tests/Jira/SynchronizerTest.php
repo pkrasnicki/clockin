@@ -4,13 +4,13 @@ namespace Tests\Jira;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\Test\ClockSensitiveTrait;
-use Tracker\Common\Duration;
-use Tracker\Common\Period;
-use Tracker\Jira\IssueId;
-use Tracker\Jira\Synchronizer;
-use Tracker\TimeLog;
-use Tracker\TimeLogId;
-use Tracker\Tracker;
+use ClockIn\Common\Duration;
+use ClockIn\Common\Period;
+use ClockIn\Jira\IssueId;
+use ClockIn\Jira\Synchronizer;
+use ClockIn\TimeLog;
+use ClockIn\TimeLogId;
+use ClockIn\Tracker;
 
 class SynchronizerTest extends TestCase
 {

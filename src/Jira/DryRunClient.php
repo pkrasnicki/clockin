@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
 use Psr\Log\LoggerInterface;
-use Tracker\Common\Period;
+use ClockIn\Common\Period;
 
 final class DryRunClient implements ClientInterface
 {

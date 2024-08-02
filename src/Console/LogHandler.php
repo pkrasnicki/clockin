@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Console;
+namespace ClockIn\Console;
 
 use Monolog\Handler\Handler;
 use Monolog\LogRecord;

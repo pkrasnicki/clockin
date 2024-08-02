@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Common\Exception;
+namespace ClockIn\Common\Exception;
 
 final class EntityNotFoundException extends \RuntimeException
 {

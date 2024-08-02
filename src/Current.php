@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tracker;
+namespace ClockIn;
 
-use Tracker\Common\Duration;
+use ClockIn\Common\Duration;
 
 final readonly class Current
 {

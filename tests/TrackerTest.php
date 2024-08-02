@@ -2,10 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\Test\ClockSensitiveTrait;
-use Tracker\Common\Duration;
-use Tracker\Common\Period;
-use Tracker\TimeLog;
-use Tracker\Tracker;
+use ClockIn\Common\Duration;
+use ClockIn\Common\Period;
+use ClockIn\TimeLog;
+use ClockIn\Tracker;
 
 class TrackerTest extends TestCase
 {

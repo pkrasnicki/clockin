@@ -5,13 +5,13 @@ declare(strict_types=1);
 
 require __DIR__.'/../vendor/autoload.php';
 
-use Tracker\Console\Application;
-use Tracker\Console\CurrentCommand;
-use Tracker\Console\DeleteCommand;
-use Tracker\Console\ListCommand;
-use Tracker\Console\StartCommand;
-use Tracker\Console\StopCommand;
-use Tracker\Console\SynchronizeCommand;
+use ClockIn\Console\Application;
+use ClockIn\Console\CurrentCommand;
+use ClockIn\Console\DeleteCommand;
+use ClockIn\Console\ListCommand;
+use ClockIn\Console\StartCommand;
+use ClockIn\Console\StopCommand;
+use ClockIn\Console\SynchronizeCommand;
 
 $application = new Application();
 

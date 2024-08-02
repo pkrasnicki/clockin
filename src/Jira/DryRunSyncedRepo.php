@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
 use Psr\Log\LoggerInterface;
-use Tracker\TimeLogId;
+use ClockIn\TimeLogId;
 
 final class DryRunSyncedRepo implements SynchronizedWorkLogRepository
 {

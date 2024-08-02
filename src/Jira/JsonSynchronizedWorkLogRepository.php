@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
-use Tracker\TimeLogId;
+use ClockIn\TimeLogId;
 
 final class JsonSynchronizedWorkLogRepository implements SynchronizedWorkLogRepository
 {

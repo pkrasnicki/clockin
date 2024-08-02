@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Console;
+namespace ClockIn\Console;
 
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
@@ -11,8 +11,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
-use Tracker\Repository\JsonFileTrackerRepository;
-use Tracker\Tracker;
+use ClockIn\Repository\JsonFileTrackerRepository;
+use ClockIn\Tracker;
 
 abstract class AbstractCommand extends Command
 {

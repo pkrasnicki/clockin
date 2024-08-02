@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tracker;
+namespace ClockIn;
 
 use Symfony\Component\Clock\ClockAwareTrait;
-use Tracker\Common\Period;
+use ClockIn\Common\Period;
 use Webmozart\Assert\Assert;
 
 final class Tracker

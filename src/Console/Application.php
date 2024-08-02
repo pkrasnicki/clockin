@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Console;
+namespace ClockIn\Console;
 
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Command\Command;

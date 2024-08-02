@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tracker;
+namespace ClockIn;
 
-use Tracker\Common\UuidId;
+use ClockIn\Common\UuidId;
 
 final class TimeLogId extends UuidId implements \Stringable
 {

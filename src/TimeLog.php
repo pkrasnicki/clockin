@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tracker;
+namespace ClockIn;
 
-use Tracker\Common\Duration;
-use Tracker\Common\Period;
+use ClockIn\Common\Duration;
+use ClockIn\Common\Period;
 
 final readonly class TimeLog
 {

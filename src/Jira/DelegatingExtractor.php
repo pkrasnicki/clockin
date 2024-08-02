@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tracker\Jira;
+namespace ClockIn\Jira;
 
-use Tracker\Jira\Exception\IssueIdNotRecognizedException;
-use Tracker\TimeLog;
+use ClockIn\Jira\Exception\IssueIdNotRecognizedException;
+use ClockIn\TimeLog;
 
 final class DelegatingExtractor implements IssueIdExtractor
 {
