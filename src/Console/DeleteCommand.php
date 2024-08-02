@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ClockIn\Console;
 
+use ClockIn\Tracker\TimeLog;
+use ClockIn\Tracker\TimeLogId;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use ClockIn\TimeLog;
-use ClockIn\TimeLogId;
 
 #[AsCommand(name: 'delete', description: 'Deletes a time log.')]
 final class DeleteCommand extends AbstractCommand

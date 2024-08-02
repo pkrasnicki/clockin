@@ -6,7 +6,7 @@ namespace Tests\Jira;
 
 use ClockIn\Jira\IssueId;
 use ClockIn\Jira\IssueIdExtractor;
-use ClockIn\TimeLog;
+use ClockIn\Tracker\TimeLog;
 
 final class IssueIdExtractorMock implements IssueIdExtractor
 {

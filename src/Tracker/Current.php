@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ClockIn;
+namespace ClockIn\Tracker;
 
 use ClockIn\Common\Duration;
 

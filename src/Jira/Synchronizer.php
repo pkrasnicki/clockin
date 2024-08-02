@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace ClockIn\Jira;
 
+use ClockIn\Tracker\TimeLog;
+use ClockIn\Tracker\TimeLogId;
+use ClockIn\Tracker\Tracker;
 use Symfony\Component\Clock\ClockAwareTrait;
-use ClockIn\TimeLog;
-use ClockIn\TimeLogId;
-use ClockIn\Tracker;
 
 final class Synchronizer implements SynchronizerInterface
 {

@@ -7,7 +7,7 @@ namespace Tests\Jira;
 use ClockIn\Jira\SynchronizedWorkLog;
 use ClockIn\Jira\SynchronizedWorkLogRepository;
 use ClockIn\Jira\WorkLogId;
-use ClockIn\TimeLogId;
+use ClockIn\Tracker\TimeLogId;
 
 final class InMemorySynchronizedWorkLogRepository implements SynchronizedWorkLogRepository
 {

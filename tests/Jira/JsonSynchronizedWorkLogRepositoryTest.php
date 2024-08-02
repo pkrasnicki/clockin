@@ -2,13 +2,13 @@
 
 namespace Tests\Jira;
 
-use PHPUnit\Framework\TestCase;
 use ClockIn\Jira\IssueId;
 use ClockIn\Jira\JiraId;
 use ClockIn\Jira\JsonSynchronizedWorkLogRepository;
 use ClockIn\Jira\SynchronizedWorkLog;
 use ClockIn\Jira\WorkLogId;
-use ClockIn\TimeLogId;
+use ClockIn\Tracker\TimeLogId;
+use PHPUnit\Framework\TestCase;
 
 class JsonSynchronizedWorkLogRepositoryTest extends TestCase
 {

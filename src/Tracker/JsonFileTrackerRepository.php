@@ -2,13 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ClockIn\Repository;
+namespace ClockIn\Tracker;
 
 use ClockIn\Common\Period;
-use ClockIn\Current;
-use ClockIn\TimeLog;
-use ClockIn\TimeLogId;
-use ClockIn\Tracker;
 
 final class JsonFileTrackerRepository implements TrackerRepository
 {

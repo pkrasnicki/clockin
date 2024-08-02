@@ -2,7 +2,7 @@
 
 namespace ClockIn\Jira;
 
-use ClockIn\Tracker;
+use ClockIn\Tracker\Tracker;
 
 interface SynchronizerInterface
 {

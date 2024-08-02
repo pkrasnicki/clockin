@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Tests\Jira;
 
-use Illuminate\Support\Collection;
 use ClockIn\Common\Period;
 use ClockIn\Jira\ClientInterface;
 use ClockIn\Jira\IssueId;
 use ClockIn\Jira\JiraId;
+use Illuminate\Support\Collection;
 
 final class JiraClientSpy implements ClientInterface
 {

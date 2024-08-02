@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace ClockIn\Jira;
 
+use ClockIn\Common\Period;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use ClockIn\Common\Period;
 
 final class Client implements ClientInterface
 {

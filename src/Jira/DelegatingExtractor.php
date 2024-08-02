@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ClockIn\Jira;
 
 use ClockIn\Jira\Exception\IssueIdNotRecognizedException;
-use ClockIn\TimeLog;
+use ClockIn\Tracker\TimeLog;
 
 final class DelegatingExtractor implements IssueIdExtractor
 {

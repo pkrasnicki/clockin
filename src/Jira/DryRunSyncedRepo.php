@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace ClockIn\Jira;
 
-use Psr\Log\LoggerInterface;
-use ClockIn\TimeLogId;
+use ClockIn\Tracker\TimeLogId;
 
 final class DryRunSyncedRepo implements SynchronizedWorkLogRepository
 {

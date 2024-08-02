@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ClockIn\Jira;
 
-use ClockIn\TimeLogId;
+use ClockIn\Tracker\TimeLogId;
 
 final class SynchronizedWorkLog
 {

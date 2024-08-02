@@ -2,15 +2,15 @@
 
 namespace Tests\Jira;
 
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Clock\Test\ClockSensitiveTrait;
 use ClockIn\Common\Duration;
 use ClockIn\Common\Period;
 use ClockIn\Jira\IssueId;
 use ClockIn\Jira\Synchronizer;
-use ClockIn\TimeLog;
-use ClockIn\TimeLogId;
-use ClockIn\Tracker;
+use ClockIn\Tracker\TimeLog;
+use ClockIn\Tracker\TimeLogId;
+use ClockIn\Tracker\Tracker;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Clock\Test\ClockSensitiveTrait;
 
 class SynchronizerTest extends TestCase
 {
@@ -87,9 +87,9 @@ class SynchronizerTest extends TestCase
         $this->assertCount(1, $jiraClientSpy->added);
         $this->assertTrue(
             $jiraClientSpy->added->contains(
-                fn($workLog) => $workLog['issue']->equals($issueId) && $workLog['period']->equals(
-                        Period::from($clockStart, new Duration(60 * 60))
-                    )
+                fn ($workLog) => $workLog['issue']->equals($issueId) && $workLog['period']->equals(
+                    Period::from($clockStart, new Duration(60 * 60))
+                )
             )
         );
     }
@@ -130,7 +130,7 @@ class SynchronizerTest extends TestCase
 
         $this->assertCount(1, $jiraClientSpy->deleted);
         $this->assertTrue(
-            $jiraClientSpy->deleted->contains(fn($workLog) => $workLog['issue'] == $issueId)
+            $jiraClientSpy->deleted->contains(fn ($workLog) => $workLog['issue'] == $issueId)
         );
     }
 
@@ -177,9 +177,9 @@ class SynchronizerTest extends TestCase
         $this->assertCount(1, $jiraClientSpy->updated);
         $this->assertTrue(
             $jiraClientSpy->updated->contains(
-                fn($workLog) => $workLog['issue'] == $issueId && $workLog['period']->equals(
-                        Period::from(new \DateTimeImmutable('2024-07-31T09:00:00'), new Duration(60 * 60))
-                    )
+                fn ($workLog) => $workLog['issue'] == $issueId && $workLog['period']->equals(
+                    Period::from(new \DateTimeImmutable('2024-07-31T09:00:00'), new Duration(60 * 60))
+                )
             )
         );
     }

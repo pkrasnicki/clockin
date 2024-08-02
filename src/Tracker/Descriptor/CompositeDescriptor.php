@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ClockIn\Descriptor;
+namespace ClockIn\Tracker\Descriptor;
 
 final class CompositeDescriptor implements TimeLogDescriptor
 {

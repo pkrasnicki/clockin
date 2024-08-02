@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace ClockIn\Console;
 
+use ClockIn\Tracker\Descriptor\CompositeDescriptor;
+use ClockIn\Tracker\Descriptor\GitBranchDescriptor;
+use ClockIn\Tracker\Descriptor\StringDescriptor;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use ClockIn\Descriptor\CompositeDescriptor;
-use ClockIn\Descriptor\GitBranchDescriptor;
-use ClockIn\Descriptor\StringDescriptor;
 
 #[AsCommand(name: 'start', description: 'Starts tracking time.')]
 final class StartCommand extends AbstractCommand

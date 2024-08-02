@@ -1,11 +1,13 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Clock\Test\ClockSensitiveTrait;
+namespace Tests\Tracker;
+
 use ClockIn\Common\Duration;
 use ClockIn\Common\Period;
-use ClockIn\TimeLog;
-use ClockIn\Tracker;
+use ClockIn\Tracker\TimeLog;
+use ClockIn\Tracker\Tracker;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Clock\Test\ClockSensitiveTrait;
 
 class TrackerTest extends TestCase
 {
@@ -99,7 +101,7 @@ class TrackerTest extends TestCase
         // Then
 
         /** @var TimeLog $timeLog */
-        $timeLog = collect($tracker->timeLogs())->first(fn (TimeLog $timeLog) => $timeLog->id->equals($timeLogId));
+        $timeLog = collect($tracker->timeLogs())->first(fn(TimeLog $timeLog) => $timeLog->id->equals($timeLogId));
         self::assertTrue($timeLog->duration()->equals(new Duration(60 * 60)));
     }
 
@@ -123,7 +125,7 @@ class TrackerTest extends TestCase
 
         // Then
 
-        $timeLog = collect($tracker->timeLogs())->first(fn (TimeLog $timeLog) => $timeLog->id->equals($timeLogId));
+        $timeLog = collect($tracker->timeLogs())->first(fn(TimeLog $timeLog) => $timeLog->id->equals($timeLogId));
         self::assertSame('Updated description', $timeLog->description);
     }
 }

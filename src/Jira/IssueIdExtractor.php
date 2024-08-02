@@ -2,7 +2,7 @@
 
 namespace ClockIn\Jira;
 
-use ClockIn\TimeLog;
+use ClockIn\Tracker\TimeLog;
 
 interface IssueIdExtractor
 {

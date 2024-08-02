@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace ClockIn\Jira;
 
-use Psr\Log\LoggerInterface;
 use ClockIn\Common\Period;
+use Psr\Log\LoggerInterface;
 
 final class DryRunClient implements ClientInterface
 {

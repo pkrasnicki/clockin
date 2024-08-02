@@ -2,7 +2,7 @@
 
 namespace ClockIn\Jira;
 
-use ClockIn\TimeLogId;
+use ClockIn\Tracker\TimeLogId;
 
 interface SynchronizedWorkLogRepository
 {
