@@ -25,4 +25,20 @@ final readonly class Period
         return $this->start->getTimestamp() === $other->start->getTimestamp()
             && $this->end->getTimestamp() === $other->end->getTimestamp();
     }
+
+    public function withStart(\DateTimeImmutable $start): self
+    {
+        return new self(
+            $start,
+            $this->end,
+        );
+    }
+
+    public function withEnd(\DateTimeImmutable $end): self
+    {
+        return new self(
+            $this->start,
+            $end,
+        );
+    }
 }
