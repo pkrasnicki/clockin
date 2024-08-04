@@ -8,6 +8,7 @@ use ClockIn\Jira\Client;
 use ClockIn\Jira\DelegatingExtractor;
 use ClockIn\Jira\DryRunClient;
 use ClockIn\Jira\DryRunSyncedRepo;
+use ClockIn\Jira\InteractiveIssueIdExtractor;
 use ClockIn\Jira\JsonSynchronizedWorkLogRepository;
 use ClockIn\Jira\RegexExtractor;
 use ClockIn\Jira\Synchronizer;
@@ -26,18 +27,18 @@ final class SynchronizeCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $synchronizer = $this->createSynchronizer($input);
-
+        $synchronizer = $this->createSynchronizer($input, $output);
         $synchronizer->synchronize($this->tracker);
 
         return self::SUCCESS;
     }
 
-    private function createSynchronizer(InputInterface $input): Synchronizer
+    private function createSynchronizer(InputInterface $input, OutputInterface $output): Synchronizer
     {
-        $extractor = new DelegatingExtractor(
-            ...array_map(fn ($regex) => new RegexExtractor($regex), $this->config['jira-extractor'])
-        );
+        $extractor = new DelegatingExtractor(...[
+            ...array_map(fn ($regex) => new RegexExtractor($regex), $this->config['jira-extractor']),
+            new InteractiveIssueIdExtractor($input, $output),
+        ]);
 
         $synchronizedWorkLogRepository = new JsonSynchronizedWorkLogRepository($this->config['working-directory'].'/synced.json');
 

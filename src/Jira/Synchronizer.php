@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace ClockIn\Jira;
 
+use ClockIn\Common\Duration;
+use ClockIn\Jira\Exception\SynchronizationException;
 use ClockIn\Tracker\TimeLog;
 use ClockIn\Tracker\TimeLogId;
 use ClockIn\Tracker\Tracker;
 use Symfony\Component\Clock\ClockAwareTrait;
+use Symfony\Component\HttpClient\Exception\ClientException;
 
 final class Synchronizer implements SynchronizerInterface
 {
@@ -22,20 +25,31 @@ final class Synchronizer implements SynchronizerInterface
 
     public function synchronize(Tracker $tracker): void
     {
-        $timeLogs = $tracker->timeLogs();
+        foreach ($tracker->timeLogs() as $timeLog) {
 
-        foreach ($timeLogs as $timeLog) {
-            $synchronizedWorkLog = $this->synchronizedWorkLogRepository->find($timeLog->id);
-            if (null === $synchronizedWorkLog) {
-                $this->add($timeLog);
+            if ($timeLog->duration()->lessThan(new Duration(60))) {
                 continue;
             }
 
-            $this->update($synchronizedWorkLog, $timeLog);
+            try {
+                $synchronizedWorkLog = $this->synchronizedWorkLogRepository->find($timeLog->id);
+                if (null === $synchronizedWorkLog) {
+                    $this->add($timeLog);
+                    continue;
+                }
+
+                $this->update($synchronizedWorkLog, $timeLog);
+            } catch (ClientException $e) {
+                throw new SynchronizationException($e->getMessage(), $e->getCode(), $e);
+            }
         }
 
         foreach ($this->getRemovedWorkLogs($tracker) as $removedWorkLog) {
-            $this->remove($removedWorkLog);
+            try {
+                $this->remove($removedWorkLog);
+            } catch (ClientException $e) {
+                throw new SynchronizationException($e->getMessage(), $e->getCode(), $e);
+            }
         }
     }
 

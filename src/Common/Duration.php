@@ -15,6 +15,16 @@ final readonly class Duration implements \Stringable
         return $this->seconds === $other->seconds;
     }
 
+    public function lessThan(Duration $b): bool
+    {
+        return $this->seconds < $b->seconds;
+    }
+
+    public function moreThan(Duration $b): bool
+    {
+        return $this->seconds > $b->seconds;
+    }
+
     public function __toString(): string
     {
         $hours = \floor($this->seconds / 3600);
