@@ -1,6 +1,6 @@
 .idea/
 
-bin/tracker.phar
+bin/clockin.phar
 .php-cs-fixer.cache
 
 /vendor/

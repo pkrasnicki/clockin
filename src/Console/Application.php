@@ -14,7 +14,7 @@ final class Application extends SymfonyApplication
 {
     public function __construct()
     {
-        parent::__construct('Tracker', '0.0.1');
+        parent::__construct('ClockIn', '0.0.1');
     }
 
     protected function getDefaultInputDefinition(): InputDefinition

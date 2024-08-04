@@ -1,10 +1,10 @@
 {
-    "name": "pkrasnicki/tracker",
+    "name": "pkrasnicki/clocin",
     "description": "Tracks working time.",
     "type": "project",
     "license": "MIT",
     "bin": [
-        "bin/tracker"
+        "bin/clockin"
     ],
     "autoload": {
         "psr-4": {
