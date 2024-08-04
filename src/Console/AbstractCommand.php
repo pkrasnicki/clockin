@@ -22,7 +22,7 @@ abstract class AbstractCommand extends Command
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        $this->logger = new Logger('tracker');
+        $this->logger = new Logger('clockin');
         $this->logger->pushHandler(new LogHandler($output));
 
         $this->config = $this->loadConfiguration($input);
@@ -43,8 +43,8 @@ abstract class AbstractCommand extends Command
         $required = ['jira-url', 'jira-user', 'jira-token', 'jira-extractor'];
 
         $workingDirectory = $input->getOption('working-directory') ?:
-            $_SERVER['TRACKER_WORKING_DIRECTORY'] ??
-                $_SERVER['HOME'].'/.tracker';
+            $_SERVER['CLOCKIN_WORKING_DIRECTORY'] ??
+                $_SERVER['HOME'].'/.clockin';
 
         $configuration = array_intersect_key(
             array_merge(
@@ -69,10 +69,10 @@ abstract class AbstractCommand extends Command
         $env = $_SERVER;
         $normalized = [];
 
-        $env = array_filter($env, fn ($key) => str_starts_with($key, 'TRACKER_'), ARRAY_FILTER_USE_KEY);
+        $env = array_filter($env, fn ($key) => str_starts_with($key, 'CLOCKIN_'), ARRAY_FILTER_USE_KEY);
 
         foreach ($env as $key => $value) {
-            $key = str_replace('TRACKER_', '', $key);
+            $key = str_replace('CLOCKIN_', '', $key);
             $key = str_replace('_', '-', strtolower($key));
 
             $normalized[$key] = $value;
