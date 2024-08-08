@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ClockIn\Jira;
 
 use ClockIn\Common\Duration;
+use ClockIn\Jira\Exception\IssueIdNotRecognizedException;
 use ClockIn\Jira\Exception\SynchronizationException;
 use ClockIn\Tracker\TimeLog;
 use ClockIn\Tracker\TimeLogId;
@@ -39,6 +40,7 @@ final class Synchronizer implements SynchronizerInterface
                 }
 
                 $this->update($synchronizedWorkLog, $timeLog);
+            } catch (IssueIdNotRecognizedException) {
             } catch (ClientException $e) {
                 throw new SynchronizationException($e->getMessage(), $e->getCode(), $e);
             }
@@ -47,6 +49,7 @@ final class Synchronizer implements SynchronizerInterface
         foreach ($this->getRemovedWorkLogs($tracker) as $removedWorkLog) {
             try {
                 $this->remove($removedWorkLog);
+            } catch (IssueIdNotRecognizedException) {
             } catch (ClientException $e) {
                 throw new SynchronizationException($e->getMessage(), $e->getCode(), $e);
             }
