@@ -8,3 +8,6 @@ bin/clockin.phar: box.json composer.json $(SRC_FILES) $(TEST_FILES)
 	./vendor/bin/phpunit ./tests
 	box compile
 
+install: bin/clockin.phar
+	cp bin/clockin.phar /usr/local/bin/clockin
+	chmod +x /usr/local/bin/clockin
