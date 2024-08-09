@@ -14,7 +14,7 @@ final class Application extends SymfonyApplication
 {
     public function __construct()
     {
-        parent::__construct('ClockIn', '0.0.2');
+        parent::__construct('ClockIn', '0.0.3');
     }
 
     protected function getDefaultInputDefinition(): InputDefinition
