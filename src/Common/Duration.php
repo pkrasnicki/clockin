@@ -15,6 +15,11 @@ final readonly class Duration implements \Stringable
         return $this->seconds === $other->seconds;
     }
 
+    public function add(Duration $duration): self
+    {
+        return new self($this->seconds + $duration->seconds);
+    }
+
     public function lessThan(Duration $b): bool
     {
         return $this->seconds < $b->seconds;
