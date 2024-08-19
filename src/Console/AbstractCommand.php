@@ -8,6 +8,8 @@ use ClockIn\Tracker\JsonFileTrackerRepository;
 use ClockIn\Tracker\Tracker;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Clock\Clock;
+use Symfony\Component\Clock\NativeClock;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,10 +24,12 @@ abstract class AbstractCommand extends Command
 
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
+        $this->config = $this->loadConfiguration($input);
+
+        Clock::set((new NativeClock())->withTimeZone($this->config['timezone']));
+
         $this->logger = new Logger('clockin');
         $this->logger->pushHandler(new LogHandler($output));
-
-        $this->config = $this->loadConfiguration($input);
 
         $trackerRepository = new JsonFileTrackerRepository($this->config['working-directory'].'/logs.json');
         $this->tracker = $trackerRepository->load();
@@ -40,7 +44,7 @@ abstract class AbstractCommand extends Command
 
     private function loadConfiguration(InputInterface $input): array
     {
-        $required = ['jira-url', 'jira-user', 'jira-token', 'jira-extractor'];
+        $required = ['jira-url', 'jira-user', 'jira-token', 'jira-extractor', 'timezone'];
 
         $workingDirectory = $input->getOption('working-directory') ?:
             $_SERVER['CLOCKIN_WORKING_DIRECTORY'] ??
@@ -94,6 +98,12 @@ abstract class AbstractCommand extends Command
         }
 
         $normalized = [];
+
+        foreach ($config as $key => $value) {
+            if($key !== 'jira') {
+                $normalized[$key] = $value;
+            }
+        }
 
         foreach ($config['jira'] as $key => $value) {
             $normalized['jira-'.$key] = $value;
