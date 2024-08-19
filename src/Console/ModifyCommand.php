@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ClockIn\Console;
 
 use ClockIn\Tracker\TimeLog;
+use Symfony\Component\Clock\DatePoint;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -34,10 +35,10 @@ final class ModifyCommand extends AbstractCommand
 
         $period = $timeLog->period;
         if ($input->getOption('start')) {
-            $period = $period->withStart(new \DateTimeImmutable($input->getOption('start')));
+            $period = $period->withStart(new DatePoint($input->getOption('start')));
         }
         if ($input->getOption('end')) {
-            $period = $period->withEnd(new \DateTimeImmutable($input->getOption('end')));
+            $period = $period->withEnd(new DatePoint($input->getOption('end')));
         }
 
         $this->tracker->modifyPeriod($timeLog->id, $period);

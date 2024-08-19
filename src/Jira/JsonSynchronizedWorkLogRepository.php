@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ClockIn\Jira;
 
 use ClockIn\Tracker\TimeLogId;
+use Symfony\Component\Clock\DatePoint;
 
 final class JsonSynchronizedWorkLogRepository implements SynchronizedWorkLogRepository
 {
@@ -76,7 +77,7 @@ final class JsonSynchronizedWorkLogRepository implements SynchronizedWorkLogRepo
             new TimeLogId($data['timeLog']),
             new JiraId($data['jiraId']),
             new IssueId($data['issue']),
-            new \DateTimeImmutable($data['synchronizedAt']),
+            new DatePoint($data['synchronizedAt']),
         );
     }
 

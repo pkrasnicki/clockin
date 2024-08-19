@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace ClockIn\Tracker;
 
 use ClockIn\Common\Period;
+use Symfony\Component\Clock\DatePoint;
 
 final class JsonFileTrackerRepository implements TrackerRepository
 {
@@ -28,7 +29,7 @@ final class JsonFileTrackerRepository implements TrackerRepository
         $data = \json_decode($data, true);
 
         $current = null !== ($data['current'] ?? null) ? new Current(
-            new \DateTimeImmutable($data['current']['start']),
+            new DatePoint($data['current']['start']),
             $data['current']['description'],
         ) : null;
 
@@ -37,11 +38,11 @@ final class JsonFileTrackerRepository implements TrackerRepository
             $timeLogs[] = new TimeLog(
                 new TimeLogId($timeLog['id']),
                 new Period(
-                    new \DateTimeImmutable($timeLog['period']['start']),
-                    new \DateTimeImmutable($timeLog['period']['end']),
+                    new DatePoint($timeLog['period']['start']),
+                    new DatePoint($timeLog['period']['end']),
                 ),
                 $timeLog['description'],
-                new \DateTimeImmutable($timeLog['updatedAt'] ?? 'now'),
+                new DatePoint($timeLog['updatedAt'] ?? 'now'),
             );
         }
 
