@@ -13,20 +13,13 @@ use Symfony\Component\Console\Question\Question;
 
 final class InteractiveIssueIdExtractor implements IssueIdExtractor
 {
-    public function __construct(private InputInterface $input, private OutputInterface $output, private int $attempts = 3)
+    public function __construct(private InputInterface $input, private OutputInterface $output)
     {
     }
 
     public function extract(TimeLog $timeLog): IssueId
     {
-        for ($i = 0; $i < $this->attempts; ++$i) {
-            try {
-                return $this->askForIssueId($timeLog);
-            } catch (IssueIdNotRecognizedException) {
-            }
-        }
-
-        throw new IssueIdNotRecognizedException();
+        return $this->askForIssueId($timeLog);
     }
 
     private function askForIssueId(TimeLog $timeLog): IssueId
