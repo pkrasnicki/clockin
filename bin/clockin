@@ -11,6 +11,7 @@ use ClockIn\Console\DeleteCommand;
 use ClockIn\Console\ListCommand;
 use ClockIn\Console\StartCommand;
 use ClockIn\Console\StopCommand;
+use ClockIn\Console\SumUpCommand;
 use ClockIn\Console\SynchronizeCommand;
 use ClockIn\Console\ModifyCommand;
 
@@ -23,5 +24,6 @@ $application->add(new CurrentCommand());
 $application->add(new DeleteCommand());
 $application->add(new SynchronizeCommand());
 $application->add(new ModifyCommand());
+$application->add(new SumUpCommand());
 
 $application->run();
